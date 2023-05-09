@@ -6,7 +6,7 @@
 #include <cstring>
 #include <unistd.h>
 #include <sys/stat.h>
-#include "mmfs.h"
+#include "../include/mmfs.h"
 
 #include <iostream>
 

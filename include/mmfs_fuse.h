@@ -4,13 +4,19 @@
 
 #include "mmfs.h"
 
-#include <fuse3/fuse.h>
-#include <cstdio>
-#include <cstring>
-#include <errno.h>
-#include <fcntl.h>
-#include <cstddef>
-#include <cassert>
+
+class MMFS {
+public:
+    const char * device_path;
+    const char * mount_path;
+    MMFS(const char * device_path, const char* mount_path) {
+        // 初始化，打开设备，读取信息
+        this->device_path = device_path;
+        this->mount_path = mount_path;
+    }
+
+};
+
 
 int fuse_getattr (const char *, struct stat *, struct fuse_file_info *fi);
 
