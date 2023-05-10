@@ -87,8 +87,6 @@ struct mmfs_super_block {
     // uint32_t node_ino;	/* overflow inode number */
 	// uint32_t meta_ino;  /* meta inode number */
 
-    uint64_t current_node; /* 日志 */
-
     // uint32_t inode_count;       
     uint8_t uuid[16];			/* 128-bit uuid for volume */		   
     uint16_t volume_name[512];  /* volume name */
