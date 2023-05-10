@@ -3,12 +3,10 @@
  * 
  */
 
-#include <cstring>
-#include <unistd.h>
-#include <sys/stat.h>
-#include "../include/mmfs.h"
 
-#include <iostream>
+#include "../include/mmfs_fuse.h"
+
+
 
 mmfs_inode* mmfs_get_inode(const char *path) {
 

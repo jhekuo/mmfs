@@ -119,6 +119,7 @@ static int8_t get_device_info() {
 	/* file descriptor 文件描述符 */
 	/* O_RDWR 表示 读写形式打开*/
 	fd = open(mmfs_params.device_name, O_RDWR);
+	cout << "fd is " << fd << endl;
 	if (fd < 0) {
 		printf("\n\tError: Failed to open the device!\n");
 		return -1;
@@ -235,7 +236,7 @@ static int prepare_super_block() {
 	uint32_t blocks_for_sit = (super_block.segment_count + SIT_ENTRY_PER_BLOCK - 1) / SIT_ENTRY_PER_BLOCK;
 	uint32_t sit_segments = (blocks_for_sit + BLOCKS_PER_SEGMENT - 1)
 			/ BLOCKS_PER_SEGMENT;
-	super_block.segment_count_sit = sit_segments * 2;
+	super_block.segment_count_sit = sit_segments;
 
 	/* nat */
 	super_block.nat_blkaddr = super_block.sit_blkaddr + 
@@ -245,7 +246,7 @@ static int prepare_super_block() {
 	uint32_t blocks_for_nat = (total_valid_blks_available + NAT_ENTRY_PER_BLOCK - 1)
 				/ NAT_ENTRY_PER_BLOCK;
 	super_block.segment_count_nat = (blocks_for_nat + BLOCKS_PER_SEGMENT - 1) / BLOCKS_PER_SEGMENT;
-	super_block.segment_count_nat = super_block.segment_count_nat * 2;
+	super_block.segment_count_nat = super_block.segment_count_nat;
 
 	/* main */
 	super_block.main_blkaddr = super_block.nat_blkaddr +(super_block.segment_count_nat *  BLOCKS_PER_SEGMENT);
@@ -440,8 +441,11 @@ static int8_t write_super_block() {
 
 	zero_buff = (uint8_t *) calloc(BLOCK_SIZE, 1);
 
-	memcpy(zero_buff + SUPER_OFFSET, &super_block,
+	memcpy(zero_buff, &super_block,
 						sizeof(super_block));
+
+	// memcpy(zero_buff + SUPER_OFFSET, &super_block,
+						// sizeof(super_block));
 
 	for (index = 0; index < 2; index++) {
 		if (writetodisk(mmfs_params.fd, zero_buff,
@@ -506,7 +510,7 @@ static int8_t init_sit_area(void) {
 	sit_seg_blk_offset = super_block.sit_blkaddr * BLOCK_SIZE;
 
 	for (index = 0;
-		index < (super_block.segment_count_sit/ 2);
+		index < (super_block.segment_count_sit);
 								index++) {
 		if (writetodisk(mmfs_params.fd, zero_buf, sit_seg_blk_offset,
 					SEGMENT_SIZE) < 0) {
@@ -542,7 +546,7 @@ static int8_t init_nat_area(void)
 	nat_seg_blk_offset *= BLOCK_SIZE;
 
 	for (index = 0;
-		index < (super_block.segment_count_nat / 2);
+		index < (super_block.segment_count_nat );
 								index++) {
 		if (writetodisk(mmfs_params.fd, nat_buf, nat_seg_blk_offset,
 					SEGMENT_SIZE) < 0) {
@@ -550,7 +554,7 @@ static int8_t init_nat_area(void)
 					on disk!!!\n");
 			return -1;
 		}
-		nat_seg_blk_offset = nat_seg_blk_offset + (2 * SEGMENT_SIZE);
+		nat_seg_blk_offset = nat_seg_blk_offset + ( SEGMENT_SIZE);
 	}
 
 	free(nat_buf);

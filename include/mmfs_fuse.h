@@ -4,7 +4,6 @@
 
 #include "mmfs.h"
 
-
 class MMFS {
 public:
     const char * device_path;
@@ -17,6 +16,7 @@ public:
 
 };
 
+MMFS* mmfs;
 
 int fuse_getattr (const char *, struct stat *, struct fuse_file_info *fi);
 

@@ -5,6 +5,7 @@
 
 #ifndef MMFS_FS_H
 #define MMFS_FS_H
+#define FUSE_USE_VERSION 31
 
 #include <cstdint>
 #include <fuse3/fuse.h>
@@ -14,7 +15,6 @@
 #include <fcntl.h>
 #include <cstddef>
 #include <cassert>
-#include <iostream>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,6 +28,8 @@
 #include <sys/ioctl.h>
 #include <sys/mount.h>
 #include <uuid/uuid.h>
+
+using namespace std;
 
 #define BLOCK_SIZE 4096     /* Size of Block is 4KB */
 #define SB_SIZE 4096        /* Super Block Size */
@@ -84,6 +86,8 @@ struct mmfs_super_block {
     uint32_t root_ino;	/* root inode number(the address of the inode)*/
     // uint32_t node_ino;	/* overflow inode number */
 	// uint32_t meta_ino;  /* meta inode number */
+
+    uint64_t current_node; /* 日志 */
 
     // uint32_t inode_count;       
     uint8_t uuid[16];			/* 128-bit uuid for volume */		   

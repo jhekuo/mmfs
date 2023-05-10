@@ -1,14 +1,16 @@
-#define FUSE_USE_VERSION 31
+
 #include "include/mmfs_fuse.h"
-using namespace std;
+
 /**
  *  Compile: g++ -Wall -o fuse `pkg-config fuse3 --cflags --libs` fuse.cpp
  *  之后后面添加 src/dir.cpp src/file.cpp src/super.cpp
  * 
- *  Usage: ./fuse /dev/nvme0n2 ~/mmfs_mount 
+ *  Usage: ./fuse /dev/nvme0n2p1 ~/mmfs_mount 
  *         ./fuse -v
  */
-MMFS* mmfs;
+
+using namespace std;
+
 
 // int fuse_open (const char* path, struct fuse_file_info *fi) {
 
