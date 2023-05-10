@@ -1,7 +1,11 @@
 /**
  *  Created by gmm on Mon Mar 27, 2023
  *  mkfs - build a Linux file system
+ * 
+ * 	Compile: g++ -o mkfs mkfs.cpp -luuid   
+ * 
  */
+
 
 #include <iostream>
 #include <stdio.h>
